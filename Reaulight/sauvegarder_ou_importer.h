@@ -44,7 +44,7 @@ public:
     //geter
 
     //seter
-    QString setRoomName(QString name);
+    void setShowRoom();
     void setProjectorList(QList<Projecteur*> proj);
 
 signals:
@@ -59,6 +59,7 @@ private:
     QString saveDateTime;
     QString creator;
     QString fileSave;
+    QString projectName;
 
     QJsonArray Scenes;
     QJsonArray Scenes_info; // exemple d'utilisation: Scenes.append(QJsonObject{{"Hauteur": "", "Largeur": "", "Position": {"x": "", "y": "", "z": ""}, "Oriantations" : {}, "id": ""}});
@@ -73,8 +74,8 @@ private:
 
     //dialog box for more information
     QPushButton* saveButton;
+    QLineEdit* projectNameInput;
     QLineEdit* creatorNameInput;
-    QLineEdit* roomNameInput;
 };
 
 

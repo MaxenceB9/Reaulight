@@ -1,11 +1,13 @@
 #include "sauvegarder_ou_importer.h"
 
+// utiliser l'extention .rlight pour les fichier
+
 Save_or_import::Save_or_import(QObject *parent)
-    : QObject(parent), saveButton(nullptr), creatorNameInput(nullptr), roomNameInput(nullptr)
+    : QObject(parent), saveButton(nullptr), creatorNameInput(nullptr), projectNameInput(nullptr)
 {
     saveButton = new QPushButton("Save");
+    projectNameInput = new QLineEdit();
     creatorNameInput = new QLineEdit();
-    roomNameInput = new QLineEdit();
 }
 
 void Save_or_import::init(QWidget *window)
@@ -51,15 +53,15 @@ void Save_or_import::saveParty()
     creatorNameInput->setGeometry(26,90, 248, 30);
     creatorNameInput->setFont(input_font);
 
-    //text associé a l'input si dessous (entrer le nom de la salle)
+    //text associé a l'input si dessous (entrer le nom du projet)
     QLabel* text2 = new QLabel(enterLastData_window);
-    text2->setText("Room Name :");
+    text2->setText("Project Name :");
     text2->move(26,130);
     text2->setFont(text_font);
 
-    roomNameInput = new QLineEdit(enterLastData_window);
-    roomNameInput->setGeometry(26,150, 248, 30);
-    roomNameInput->setFont(input_font);
+    projectNameInput = new QLineEdit(enterLastData_window);
+    projectNameInput->setGeometry(26,150, 248, 30);
+    projectNameInput->setFont(input_font);
 
     //bouton de sauvegarde
     saveButton = new QPushButton(enterLastData_window);
@@ -84,18 +86,18 @@ void Save_or_import::saveParty()
         bool rNi = false; // room Name input
         bool cNi = false; // creator Name input
 
-        if(roomNameInput->text().isEmpty())
+        if(projectNameInput->text().isEmpty())
         {
-            QMessageBox::warning(&setOtherFileInfo, "Error", "Room name cannot be empty.");
+            QMessageBox::warning(&setOtherFileInfo, "Error", "Project name cannot be empty.");
         }
         else
         {
             rNi = true;
         }
-        if(creatorNameInput->text().isEmpty())
+        if(projectNameInput->text().isEmpty())
         {
-            QMessageBox::warning(&setOtherFileInfo, "Error", "The creator name is empty so your name is 'Anonymous'");
-            creatorNameInput->setText("Anonymous"); // mettre le nom du créateur en anonyme
+            QMessageBox::warning(&setOtherFileInfo, "Error", "The projet name is empty so your name is 'No define'");
+            projectNameInput->setText("No define"); // mettre le nom du créateur en anonyme
             cNi = true;
         }
         else
@@ -104,15 +106,15 @@ void Save_or_import::saveParty()
         }
         if(cNi && rNi)
         {
-            this->roomName = roomNameInput->text();
-            this->creator = creatorNameInput->text();
+            this->projectName = projectNameInput->text();
+            this->creator = projectNameInput->text();
 
             emit isSavingAccept(true);
 
             QJsonObject jsonObject;
             saveDateTime = QDate::currentDate().toString() + " at " + QTime::currentTime().toString(); // date de l'enregistrement
 
-            QString filename = roomName;
+            QString filename = projectName;
             if(filename.contains(" "))
             {
                 filename.replace(" ", "_");
@@ -121,6 +123,7 @@ void Save_or_import::saveParty()
 
             if(!roomName.isEmpty() && !creator.isEmpty()) // si le nom de la salle n'est pas vide et que le nom du créateur n'est pas vide
             {
+                qDebug() << "test";
                 jsonObject = QJsonObject{
                     {"Nom_de_la_salle", this->roomName},
                     {"Date_de_sauvegarde", this->saveDateTime},
@@ -225,7 +228,7 @@ void Save_or_import::savePartyWhenOpen()
     {
         QMessageBox messageBox;
         messageBox.setWindowTitle("Error");
-        messageBox.setText("You didn't record your scene.");
+        messageBox.setText("You didn't save your scene.");
         messageBox.setIcon(QMessageBox::Warning);
 
         QPushButton* saveButton = messageBox.addButton("Save", QMessageBox::AcceptRole);
@@ -267,15 +270,10 @@ void Save_or_import::dialog(dialogType type)
     }
 }
 
-//seter
-QString Save_or_import::setRoomName(QString name)
-{
-    return this->roomName = name;
-}
 void Save_or_import::setProjectorList(QList<Projecteur*> proj)
 {
     QJsonArray convertQlistToArray;
-
+    this->roomName = "empty"; // temporaire
     for (const auto& key : proj)
     {
         QJsonObject obj;
