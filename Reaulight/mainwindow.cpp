@@ -7,10 +7,12 @@ MainWindow::MainWindow(QWidget *parent)
     arborescence(new arborescence_projet(this)), // Initialisation de la classe arborescence_projet
     tabWidget(nullptr),
     dockGauche(nullptr),
-    projecteur()
+    showRoom(nullptr)
 {
     SoI = new Save_or_import();
     SoI->init(window());
+
+    showRoom = new SalleDeSpectacle();
 
     //test avec la création de proj
     this->instance_projector(QVector3D(10,10,10),1,25,0);
@@ -107,7 +109,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(SoI, &Save_or_import::isSavingAccept, this, [this](bool accepted){
         if(accepted == true)
         {
-            SoI->setProjectorList(this->get_instanced_projector()); //envoyer tout les projecteurs pour la sauvegarde
+            SoI->setData(showRoom->get_roomName() ,this->get_instanced_projector()); //envoyer tout les projecteurs pour la sauvegarde
         }
     });
 

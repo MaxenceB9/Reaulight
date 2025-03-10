@@ -104,7 +104,15 @@ void SalleDeSpectacle::set_layer(QList<QVector3D> layer_points, int layer)
         qDebug() << QString("The required layer (") << layer << QString(") isn't exist.");
 }
 
+void SalleDeSpectacle::set_roomName(QString name)
+{
+    this->roomName = name;
+}
 
+QString SalleDeSpectacle::get_roomName()
+{
+    return this->roomName;
+}
 /**
  * @brief SalleDeSpectacle::load Permet de charger les informations de la classe dans le fichier préalablement défini.
  */

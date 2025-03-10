@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QDate>
 #include <QWidget>
+#include <QThread>
 
 #include <projecteur.h>
 
@@ -44,8 +45,7 @@ public:
     //geter
 
     //seter
-    void setShowRoom();
-    void setProjectorList(QList<Projecteur*> proj);
+    void setData(QString RoomName, QList<Projecteur*> proj);
 
 signals:
     void isSavingAccept(bool accepted);
@@ -65,7 +65,7 @@ private:
     QJsonArray Scenes_info; // exemple d'utilisation: Scenes.append(QJsonObject{{"Hauteur": "", "Largeur": "", "Position": {"x": "", "y": "", "z": ""}, "Oriantations" : {}, "id": ""}});
     QJsonArray Structures;
     QJsonArray Structures_info;
-    QJsonArray Projector;
+    QJsonArray Projectors;
     QJsonArray Projector_info;
     QJsonArray Programme_du_show;
 

@@ -123,7 +123,6 @@ void Save_or_import::saveParty()
 
             if(!roomName.isEmpty() && !creator.isEmpty()) // si le nom de la salle n'est pas vide et que le nom du créateur n'est pas vide
             {
-                qDebug() << "test";
                 jsonObject = QJsonObject{
                     {"Nom_de_la_salle", this->roomName},
                     {"Date_de_sauvegarde", this->saveDateTime},
@@ -132,7 +131,7 @@ void Save_or_import::saveParty()
                     {"Scenes_info", this->Scenes_info},
                     {"Structures", this->Structures},
                     {"Structures_info", this->Structures_info},
-                    {"Projecteurs", this->Projector},
+                    {"Projecteurs", this->Projectors},
                     {"Projecteurs_info", this->Projector_info},
                     {"Programme_du_show", this->Programme_du_show}
                 };
@@ -270,10 +269,9 @@ void Save_or_import::dialog(dialogType type)
     }
 }
 
-void Save_or_import::setProjectorList(QList<Projecteur*> proj)
+void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj)
 {
     QJsonArray convertQlistToArray;
-    this->roomName = "empty"; // temporaire
     for (const auto& key : proj)
     {
         QJsonObject obj;
@@ -281,7 +279,7 @@ void Save_or_import::setProjectorList(QList<Projecteur*> proj)
         //Enregistrer le nom du projecteur.
         obj["Name"] = key->get_name();
 
-        //Enregistrer les coordonnées du projecteur.
+        //Enregistrer les coo   rdonnées du projecteur.
         QJsonArray pos;
         pos.append(key->get_pos().x());
         pos.append(key->get_pos().y());
@@ -314,8 +312,15 @@ void Save_or_import::setProjectorList(QList<Projecteur*> proj)
         convertQlistToArray.append(obj);
     }
 
-    this->Projector = convertQlistToArray;
+    this->Projectors = convertQlistToArray;
+    if(RoomName.isEmpty())
+    {
+        this->roomName = "No define";
+    }
+    else
+    {
+        this->roomName = RoomName;
+    }
 }
-
 //geter
 
