@@ -15,6 +15,7 @@
 #include <QLabel>
 #include <QDebug>
 
+#include "Items/salledespectacle.h"
 #include "projecteur.h"
 #include "sauvegarder_ou_importer.h"
 #include "arborescence_projet.h"
@@ -55,7 +56,7 @@ private:
     Projecteur *proj1;
     QList<Projecteur*> projecteur; // Liste des projecteurs instanciés
     Save_or_import* SoI;
-
+    SalleDeSpectacle *showRoom;
     QFileSystemModel *modelExplorer; // Modèle pour l'onglet "Explorateur"
     arborescence_projet *arborescence;
     QTabWidget *tabWidget; // Onglets
