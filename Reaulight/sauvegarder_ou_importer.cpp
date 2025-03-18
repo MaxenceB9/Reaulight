@@ -323,9 +323,6 @@ void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj, QList<QVe
         this->roomName = RoomName;
     }
     //enregistrer toutes les couches de la salles
-
-    this->
-
 }
 //geter
 
