@@ -14,13 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     showRoom = new SalleDeSpectacle();
 
-    //test avec la création de proj
-    this->instance_projector(QVector3D(10,10,10),1,25,0);
-    this->instance_projector(QVector3D(10,10,10),2,25,0);
-    this->instance_projector(QVector3D(10,10,10),3,25,0);
-    this->instance_projector(QVector3D(10,10,10),4,25,0);
-    this->instance_projector(QVector3D(10,10,10),5,25,0);
-    this->instance_projector(QVector3D(10,10,10),6,25,0);
 
     this->window()->setGeometry(0, 0, 1000, 600); // Taille de la fenêtre (L=1'000 ; l=600) à la position X=0 ; Y=0
 
@@ -109,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(SoI, &Save_or_import::isSavingAccept, this, [this](bool accepted){
         if(accepted == true)
         {
-            SoI->setData(showRoom->get_roomName() ,this->get_instanced_projector()); //envoyer tout les projecteurs pour la sauvegarde
+            SoI->setData(showRoom->get_roomName() ,this->get_instanced_projector(), showRoom->get_all_layer()); //envoyer tout les projecteurs pour la sauvegarde
         }
     });
 

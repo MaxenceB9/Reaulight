@@ -269,7 +269,7 @@ void Save_or_import::dialog(dialogType type)
     }
 }
 
-void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj)
+void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj, QList<QVector3D> layer)
 {
     QJsonArray convertQlistToArray;
     for (const auto& key : proj)
@@ -313,6 +313,7 @@ void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj)
     }
 
     this->Projectors = convertQlistToArray;
+    //enregistrer le nom de la salle
     if(RoomName.isEmpty())
     {
         this->roomName = "No define";
@@ -321,6 +322,10 @@ void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj)
     {
         this->roomName = RoomName;
     }
+    //enregistrer toutes les couches de la salles
+
+    this->
+
 }
 //geter
 

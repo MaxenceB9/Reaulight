@@ -45,7 +45,7 @@ public:
     //geter
 
     //seter
-    void setData(QString RoomName, QList<Projecteur*> proj);
+    void setData(QString RoomName, QList<Projecteur*> proj, QList<QVector3D> layer);
 
 signals:
     void isSavingAccept(bool accepted);
