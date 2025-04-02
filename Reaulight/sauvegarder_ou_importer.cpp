@@ -123,10 +123,13 @@ void Save_or_import::saveParty()
 
             if(!roomName.isEmpty() && !creator.isEmpty()) // si le nom de la salle n'est pas vide et que le nom du créateur n'est pas vide
             {
+                //rajouter ce qui faut pour enregistrer la salle. Ex "Salle_info"
                 jsonObject = QJsonObject{
                     {"Nom_de_la_salle", this->roomName},
                     {"Date_de_sauvegarde", this->saveDateTime},
                     {"Createur", this->creator},
+                    {"Salle", this->Room},
+                    {"Salle_info", this->Room_info},
                     {"Scenes", this->Scenes},
                     {"Scenes_info", this->Scenes_info},
                     {"Structures", this->Structures},
@@ -187,6 +190,10 @@ void Save_or_import::importParty(QString path)
             qDebug() << key << ": " << val.toString();
         }
         else if(key == "Salle")
+        {
+            qDebug() << key << ": " << obj;
+        }
+        else if(key == "Salle_info")
         {
             qDebug() << key << ": " << obj;
         }
@@ -269,10 +276,10 @@ void Save_or_import::dialog(dialogType type)
     }
 }
 
-void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj, QList<QVector3D> layer)
+void Save_or_import::setData(QList<Projecteur*> Proj, QJsonDocument Showroom)
 {
     QJsonArray convertQlistToArray;
-    for (const auto& key : proj)
+    for (const auto& key : Proj)
     {
         QJsonObject obj;
 
@@ -313,18 +320,25 @@ void Save_or_import::setData(QString RoomName,QList<Projecteur*> proj, QList<QVe
     }
 
     this->Projectors = convertQlistToArray;
-    //enregistrer le nom de la salle
-    if(RoomName.isEmpty())
+
+    if(Showroom.isArray())
     {
-        this->roomName = "No define";
+        QJsonArray ShowRoom_array = Showroom.array();
+        QJsonDocument ShowRoom_doc(ShowRoom_array);
+
+        this->Room_info = ShowRoom_array;
+    }
+    else if(Showroom.isObject())
+    {
+        QJsonObject ShowRoom_obj = Showroom.object();
+        this->roomName = ShowRoom_obj["name"].toString().isEmpty() ? "No Define" : ShowRoom_obj["name"].toString();
+        this->Room_info = ShowRoom_obj["layers"].toArray();
     }
     else
     {
-        this->roomName = RoomName;
+        qWarning() << "Showroom n'est pas un array";
     }
-    //enregistrer toutes les couches de la salles
-
-    this->
+    //enregistrer le nom de la salle
 
 }
 //geter

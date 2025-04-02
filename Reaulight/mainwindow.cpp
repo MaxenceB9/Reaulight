@@ -102,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(SoI, &Save_or_import::isSavingAccept, this, [this](bool accepted){
         if(accepted == true)
         {
-            SoI->setData(showRoom->get_roomName() ,this->get_instanced_projector(), showRoom->get_all_layer()); //envoyer tout les projecteurs pour la sauvegarde
+            SoI->setData(this->get_instanced_projector(),showRoom->get_JSON()); //envoyer tout les projecteurs pour la sauvegarde
         }
     });
 

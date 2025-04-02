@@ -75,18 +75,6 @@ QList<QVector3D> SalleDeSpectacle::get_layer(int layer)
  * @brief SalleDeSpectacle::get_all_layer Renvoie tout contenu de la salle
  * @return Renvoie la liste des points définissant les coordonnées 3D des points de la salle.
  */
-QList<QVector3D> SalleDeSpectacle::get_all_layer()
-{
-    QList<QVector3D> result;
-    if(layers)
-    {
-        for(const QList<QVector3D> &layer : *layers)
-        {
-            result.append(layer);
-        }
-    }
-    return result;
-}
 /**
  * @brief SalleDeSpectacle::set_ground Permet de redéfinir la liste des points du sol
  * @param ground_points La liste des points 3D du sol
@@ -124,10 +112,6 @@ void SalleDeSpectacle::set_roomName(QString name)
     this->roomName = name;
 }
 
-QString SalleDeSpectacle::get_roomName()
-{
-    return this->roomName;
-}
 /**
  * @brief SalleDeSpectacle::load Permet de charger les informations de la classe dans le fichier préalablement défini.
  */

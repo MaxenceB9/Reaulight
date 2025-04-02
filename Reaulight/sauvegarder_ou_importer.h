@@ -45,7 +45,7 @@ public:
     //geter
 
     //seter
-    void setData(QString RoomName, QList<Projecteur*> proj, QList<QVector3D> layer);
+    void setData(QList<Projecteur*> Proj, QJsonDocument Showroom);
 
 signals:
     void isSavingAccept(bool accepted);
@@ -68,7 +68,8 @@ private:
     QJsonArray Projectors;
     QJsonArray Projector_info;
     QJsonArray Programme_du_show;
-
+    QJsonArray Room;
+    QJsonArray Room_info;
     bool savehasRun = false;
 
 

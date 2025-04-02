@@ -25,13 +25,12 @@ public:
     QList<QVector3D> get_ground();
     QList<QVector3D> get_roof();
     QList<QVector3D> get_layer(int layer);
-    QList<QVector3D> get_all_layer();
+
     void set_ground(QList<QVector3D> ground_points);
     void set_roof(QList<QVector3D> roof_points);
     void set_layer(QList<QVector3D> layer_points, int layer);
     void set_roomName(QString name);
 
-    QString get_roomName();
     QJsonDocument get_JSON();
 
 signals:
