@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     menuFichier = menuBar()->addMenu("&Fichier");
 
     QAction *actionImporter = new QAction("&Importer", this);
+        actionImporter->setShortcut(QKeySequence("Ctrl+I"));
         menuFichier->addAction(actionImporter);
         connect(actionImporter, &QAction::triggered, this, [this]() {SoI->dialog(dialogType::import);});
     QMenu *fichiersRecents = menuFichier->addMenu("&Fichiers récents");
@@ -29,9 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
         fichiersRecents->addAction("Fichier bidon 2.txt");
         fichiersRecents->addAction("Fichier bidon 3.txt");
     QAction *actionSauvegarder = new QAction("&Sauvegarder", this);
+        actionSauvegarder->setShortcut(QKeySequence("Ctrl+S"));
         menuFichier->addAction(actionSauvegarder);
         connect(actionSauvegarder, &QAction::triggered, this, [this]() {SoI->dialog(dialogType::saveIfOpen);});
     QAction *actionEnregistrerSous = new QAction("&Enregistrer sous", this);
+        actionEnregistrerSous->setShortcut(QKeySequence("Ctrl+Shift+S"));
         menuFichier->addAction(actionEnregistrerSous);
         connect(actionEnregistrerSous, &QAction::triggered, this, [this]() {SoI->dialog(dialogType::save);});
     QAction *actionQuitter = new QAction("&Quitter", this);
@@ -102,7 +105,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(SoI, &Save_or_import::isSavingAccept, this, [this](bool accepted){
         if(accepted == true)
         {
-            SoI->setData(this->get_instanced_projector(),showRoom->get_JSON()); //envoyer tout les projecteurs pour la sauvegarde
+            SoI->setData(
+                this->get_instanced_projector(),
+                showRoom->get_JSON()
+                ); //envoyer tout les projecteurs pour la sauvegarde
         }
     });
 

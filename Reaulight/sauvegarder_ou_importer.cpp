@@ -321,6 +321,7 @@ void Save_or_import::setData(QList<Projecteur*> Proj, QJsonDocument Showroom)
 
     this->Projectors = convertQlistToArray;
 
+    //sauvegarde de la salle de spectacle
     if(Showroom.isArray())
     {
         QJsonArray ShowRoom_array = Showroom.array();
@@ -338,8 +339,6 @@ void Save_or_import::setData(QList<Projecteur*> Proj, QJsonDocument Showroom)
     {
         qWarning() << "Showroom n'est pas un array";
     }
-    //enregistrer le nom de la salle
-
 }
 //geter
 
