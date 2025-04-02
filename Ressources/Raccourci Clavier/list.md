@@ -4,10 +4,10 @@ Bienvenue dans la documentation des raccourcis clavier pour notre application. C
 
 ## Raccourcis Généraux
 - **Enregistrer** : `Ctrl + S`
-  - Enregistre les modifications apportées au fichier actuel.
+  - Enregistre les modifications apportées à la salle dans le fichier ouvert.
 
 - **Enregistrer Sous** : `Ctrl + Shift + S`
-  - Enregistre le fichier actuel sous un nouveau nom ou à un nouvel emplacement.
+  - Enregistrer la salle de spectacle si elle n'a pas déjà été enregistrée.
 
 - **Importer un fichier** : `Ctrl + I`
   - Ouvrir un fichier projet créé par l'utilisateur ou un autre. 
