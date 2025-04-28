@@ -6,14 +6,10 @@ MainWindow::MainWindow(QWidget *parent)
     modelExplorer(nullptr),
     arborescence(new arborescence_projet(this)), // Initialisation de la classe arborescence_projet
     tabWidget(nullptr),
-    dockGauche(nullptr),
-    showRoom(nullptr)
+    dockGauche(nullptr)
 {
     SoI = new Save_or_import();
     SoI->init(window());
-
-    showRoom = new SalleDeSpectacle();
-
 
     this->window()->setGeometry(0, 0, 1000, 600); // Taille de la fenêtre (L=1'000 ; l=600) à la position X=0 ; Y=0
 
@@ -40,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *actionQuitter = new QAction("&Quitter", this);
         menuFichier->addAction(actionQuitter);
         connect(actionQuitter, &QAction::triggered, qApp, &QApplication::quit);
-
     menuEdition = menuBar()->addMenu("&Edition");
 
     menuAffichage = menuBar()->addMenu("&Affichage 3D");
@@ -89,7 +84,8 @@ MainWindow::MainWindow(QWidget *parent)
         dockGauche->setWidget(tabWidget);
         addDockWidget(Qt::LeftDockWidgetArea, dockGauche);
         dockGauche->setMinimumWidth(250);
-        dockGauche->setMaximumWidth(425);
+        dockGauche->setMaximumWidth(450);
+        dockGauche->setFeatures(dockGauche->features() & QDockWidget::NoDockWidgetFeatures);
 
     // Exemple d'ajout d'éléments à l'arborescence
         arborescence->addSpectacle("Spectacle 1");
@@ -100,15 +96,12 @@ MainWindow::MainWindow(QWidget *parent)
                 arborescence->addMaterielDMX(univers1, "Matériel DMX 1");
         treeArborescence->expandAll();
 
-
     //recup les données pour l'enregristrer du fichier .json
     connect(SoI, &Save_or_import::isSavingAccept, this, [this](bool accepted){
         if(accepted == true)
         {
-            SoI->setData(
-                this->get_instanced_projector(),
-                showRoom->get_JSON()
-                ); //envoyer tout les projecteurs pour la sauvegarde
+            /** A corriger **/
+            //SoI->setProjectorList(this->projector); //envoyer tout les projecteurs pour la sauvegarde
         }
     });
 
@@ -121,28 +114,3 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {}
-
-QList<Projecteur*> MainWindow::get_instanced_projector()
-{
-    return this->projecteur;
-}
-
-void MainWindow::instance_projector(QVector3D pos, int adress, double distance_attache_rotation, double angle)
-{
-    this->projecteur.append(new Projecteur(pos, adress, distance_attache_rotation, angle));
-}
-
-void MainWindow::uninstance_projector(int index)
-{
-    // on regarde si on a un index out of range
-    if ((int)(this->projecteur.size()) > index && index >= 0)
-    {
-        delete this->projecteur[index]; // désintancie le projecteur
-        this->projecteur.erase(this->projecteur.begin() + index); // supprime un élément à un index
-    }
-    else // si oui, on lève une erreur
-    {
-        qDebug() << "List index out of range, vous ne pouvez pas supprimer un projecteur à un emplacement mémoire indéfinie";
-    }
-}
-
