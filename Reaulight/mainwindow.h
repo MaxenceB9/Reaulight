@@ -15,7 +15,7 @@
 #include "projector.h"
 #include "sauvegarder_ou_importer.h"
 #include "arborescence_projet.h"
-
+#include "Items/salledespectacle.h"
 
 class MainWindow : public QMainWindow
 {
@@ -36,13 +36,18 @@ private:
     QWidget *dockWidgetContents;
     QMenu *menuAide;
 
-    Projector *proj1;
+    Projector *projector;
+    SalleDeSpectacle* showroom;
     Save_or_import* SoI;
-    SalleDeSpectacle *showRoom;
     QFileSystemModel *modelExplorer; // Modèle pour l'onglet "Explorateur"
     arborescence_projet *arborescence;
     QTabWidget *tabWidget; // Onglets
     QDockWidget *dockGauche; // Panneau latéral
     QDockWidget *dockBas; // Panneau complémentaire
+
+
+    //list
+
+    QList<Projector*> projector_list;
 };
 #endif // MAINWINDOW_H

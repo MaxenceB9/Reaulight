@@ -19,6 +19,7 @@ void Save_or_import::init(QWidget *window)
 
 void Save_or_import::saveParty()
 {
+    //definition du widgets
     QWidget *enterLastData_window = new QWidget();
     enterLastData_window->setGeometry(MainWindow->width() / 2 - 250, MainWindow->height() / 2 - 100, 500, 200);
     enterLastData_window->setMaximumSize(500, 200);
@@ -109,7 +110,7 @@ void Save_or_import::saveParty()
             this->projectName = projectNameInput->text();
             this->creator = projectNameInput->text();
 
-            emit isSavingAccept(true);
+            emit isSavingAccept(true); // plante ici !!!!!!!!!
 
             QJsonObject jsonObject;
             saveDateTime = QDate::currentDate().toString() + " at " + QTime::currentTime().toString(); // date de l'enregistrement
@@ -157,23 +158,30 @@ void Save_or_import::saveParty()
             // detruire "enterLastData_window" plutard
             enterLastData_window->deleteLater();
         }
+//        else
+//        {
+//            this->deleteData();
+//        }
     });
 }
 
 void Save_or_import::importParty(QString path)
 {
     QFile file(path);
-    file.open(QIODevice::ReadOnly);
+    file.open(QIODevice::ReadOnly); //ouverture du fichier en mode lecture
     QByteArray sBuf = file.readAll();
 
     QJsonDocument doc = QJsonDocument::fromJson(sBuf);
     if (doc.isNull()) {
+        //erreur si le contenu du fichier n'est pas au format json
         qWarning() << "The content of the file is not a valid JSON.";
         return;
     }
     QJsonObject Obj = doc.object();
     for(const QString &key : Obj.keys())
     {
+        //**a refaire**\\
+        //extait les donnée du fichier
         QJsonValue val = Obj.value(key);
         QJsonObject obj = val.toObject();
         QJsonArray arr = val.toArray();
@@ -230,24 +238,7 @@ void Save_or_import::importParty(QString path)
 
 void Save_or_import::savePartyWhenOpen()
 {
-    if (this->pathChoose.isEmpty()) // si l'utisilateur n'a pas enregistrer avant alors lui afficher cette msgbox
-    {
-        QMessageBox messageBox;
-        messageBox.setWindowTitle("Error");
-        messageBox.setText("You didn't save your scene.");
-        messageBox.setIcon(QMessageBox::Warning);
-
-        QPushButton* saveButton = messageBox.addButton("Save", QMessageBox::AcceptRole);
-        QPushButton* cancelButton = messageBox.addButton("Cancel", QMessageBox::RejectRole);
-
-        messageBox.exec();
-
-        if (messageBox.clickedButton() == saveButton)
-        {
-            this->saveParty();
-        }
-    }
-    //reste du code ici
+    qDebug() << "Not ok for the moment";
 }
 
 void Save_or_import::dialog(dialogType type)
@@ -276,7 +267,7 @@ void Save_or_import::dialog(dialogType type)
     }
 }
 
-void Save_or_import::setData(QList<Projecteur*> Proj, QJsonDocument Showroom)
+void Save_or_import::setData(QList<Projector*> Proj, QJsonDocument Showroom)
 {
     QJsonArray convertQlistToArray;
     for (const auto& key : Proj)
@@ -286,7 +277,12 @@ void Save_or_import::setData(QList<Projecteur*> Proj, QJsonDocument Showroom)
         //Enregistrer le nom du projecteur.
         obj["Name"] = key->get_name();
 
-        //Enregistrer les coo   rdonnées du projecteur.
+        obj["Channel_Number"] = key->get_nb_channel();
+
+        obj["Brand"] = key->get_brand();
+
+        obj["Model"] = key->get_model();
+
         QJsonArray pos;
         pos.append(key->get_pos().x());
         pos.append(key->get_pos().y());
@@ -304,6 +300,8 @@ void Save_or_import::setData(QList<Projecteur*> Proj, QJsonDocument Showroom)
 
         //Enregistrer l'angle du faisceau du projecteur.
         obj["Angle"] = key->get_angle();
+
+        obj["Weight"] = key->get_weight();
 
         //Enregistrer la taille du projecteur.
         QJsonArray sizeArray;
@@ -340,5 +338,28 @@ void Save_or_import::setData(QList<Projecteur*> Proj, QJsonDocument Showroom)
         qWarning() << "Showroom n'est pas un array";
     }
 }
+
+
 //geter
 
+
+//public slots
+
+
+//private Function
+
+//void Save_or_import::deleteData()
+//{
+//    this->roomName = "";
+//    this->saveDateTime = "";
+//    this->creator = "";
+//    this->Room = {};
+//    this->Room_info = {};
+//    this->Scenes = {};
+//    this->Scenes_info = {};
+//    this->Structures = {};
+//    this->Structures_info = {};
+//    this->Projectors = {};
+//    this->Projector_info = {};
+//    this->Programme_du_show = {};
+//}

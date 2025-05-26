@@ -16,6 +16,24 @@
 #include <QStandardPaths>
 #include <QString>
 #include <QSysInfo>
+#include <QMessageBox>#ifndef SAUVEGARDER_OU_IMPORTER_H
+#define SAUVEGARDER_OU_IMPORTER_H
+
+//Sauvegarde des données de spectacle #5
+
+#include <QDir>
+#include <QDebug>
+#include <QFile>
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QStandardPaths>
+#include <QString>
+#include <QSysInfo>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QLineEdit>
@@ -26,8 +44,7 @@
 #include <QWidget>
 #include <QThread>
 
-#include <projecteur.h>
-
+#include <projector.h>
 enum dialogType {save, import, saveIfOpen};
 
 class Save_or_import : public QObject
@@ -45,10 +62,12 @@ public:
     //geter
 
     //seter
-    void setData(QList<Projecteur*> Proj, QJsonDocument Showroom);
+    void setData(QList<Projector*> Proj, QJsonDocument Showroom);
+
 
 signals:
     void isSavingAccept(bool accepted);
+
 private:
     QWidget *MainWindow; //variable pour le widget de la window principale
 
@@ -72,12 +91,12 @@ private:
     QJsonArray Room_info;
     bool savehasRun = false;
 
-
     //dialog box for more information
     QPushButton* saveButton;
     QLineEdit* projectNameInput;
     QLineEdit* creatorNameInput;
+
+    //void deleteData();
 };
 
-
-#endif // SAUVEGARDER_OU_IMPORTER_H
+#endif

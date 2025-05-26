@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     SoI = new Save_or_import();
     SoI->init(window());
+    showroom = new SalleDeSpectacle(this);
 
     this->window()->setGeometry(0, 0, 1000, 600); // Taille de la fenêtre (L=1'000 ; l=600) à la position X=0 ; Y=0
 
@@ -97,15 +98,14 @@ MainWindow::MainWindow(QWidget *parent)
         treeArborescence->expandAll();
 
     //recup les données pour l'enregristrer du fichier .json
-    connect(SoI, &Save_or_import::isSavingAccept, this, [this](bool accepted){
-        if(accepted == true)
-        {
-            /** A corriger **/
-            //SoI->setProjectorList(this->projector); //envoyer tout les projecteurs pour la sauvegarde
-        }
-    });
-
+        connect(SoI, &Save_or_import::isSavingAccept, this, [this](bool accepted) {
+            if (accepted) {
+                SoI->setData(projector_list, showroom->get_JSON());
+            }
+        });
+    //connect(SoI, SIGNAL(isSavingAccept(bool)),SoI, SLOT(test(bool)));
     // Création d'un QDockWidget bas
+      //  connect(SoI, SIGNAL(isSavingAccept(bool)), SoI, SLOT(pushdata));
     dockBas = new QDockWidget("Panneau complémentaire", this);
     addDockWidget(Qt::BottomDockWidgetArea, dockBas);
     dockBas->setMinimumWidth(250);
